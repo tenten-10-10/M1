@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.2">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.3px 'Courier New'; color: #032553; -webkit-text-stroke: #032553}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.3px 'Courier New'; color: #032553; -webkit-text-stroke: #032553; min-height: 15.0px}
+    span.s1 {font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="ja"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1">    &lt;meta charset="UTF-8"&gt;</span></p>
+<p class="p1"><span class="s1">    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
+<p class="p1"><span class="s1">    &lt;title&gt;メダルコレクション&lt;/title&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p1"><span class="s1">    &lt;h1&gt;メダルコレクション&lt;/h1&gt;</span></p>
+<p class="p1"><span class="s1">    &lt;div id="message"&gt;NFCタグをスキャンしてメダルを集めよう！&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1">    &lt;div id="medal-count"&gt;現在のメダル数: 読み込み中...&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">    &lt;script&gt;</span></p>
+<p class="p1"><span class="s1">        const userId = "guest1"; // ユーザーIDの設定</span></p>
+<p class="p1"><span class="s1">        const urlParams = new URLSearchParams(window.location.search);</span></p>
+<p class="p1"><span class="s1">        const tagID = urlParams.get('tagID');</span></p>
+<p class="p1"><span class="s1">        const baseUrl = "https://script.google.com/macros/library/d/1uJPsCHtEO38qUaYGY0uX-ORxakgfkgaO_Lw_Bt4g8uYPh7zPG6gWxxF8/2"; // API URLに置き換え</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">        function updateMedalCount() {</span></p>
+<p class="p1"><span class="s1">            fetch(`${baseUrl}?userId=${userId}&amp;action=getMedalCount`)</span></p>
+<p class="p1"><span class="s1">                .then(response =&gt; response.text())</span></p>
+<p class="p1"><span class="s1">                .then(count =&gt; {</span></p>
+<p class="p1"><span class="s1">                    document.getElementById("medal-count").textContent = `現在のメダル数: ${count}`;</span></p>
+<p class="p1"><span class="s1">                });</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">        function recordMedal() {</span></p>
+<p class="p1"><span class="s1">            fetch(`${baseUrl}?userId=${userId}&amp;tagID=${tagID}&amp;action=recordMedal`)</span></p>
+<p class="p1"><span class="s1">                .then(response =&gt; response.text())</span></p>
+<p class="p1"><span class="s1">                .then(message =&gt; {</span></p>
+<p class="p1"><span class="s1">                    document.getElementById("message").textContent = message === "Medal recorded"</span></p>
+<p class="p1"><span class="s1">                        ? `メダルを獲得しました！タグID: ${tagID}`</span></p>
+<p class="p1"><span class="s1">                        : "このタグは既にスキャン済みです";</span></p>
+<p class="p1"><span class="s1">                    updateMedalCount();</span></p>
+<p class="p1"><span class="s1">                });</span></p>
+<p class="p1"><span class="s1">        }</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">        document.addEventListener("DOMContentLoaded", () =&gt; {</span></p>
+<p class="p1"><span class="s1">            updateMedalCount();</span></p>
+<p class="p1"><span class="s1">            if (tagID) {</span></p>
+<p class="p1"><span class="s1">                recordMedal();</span></p>
+<p class="p1"><span class="s1">            }</span></p>
+<p class="p1"><span class="s1">        });</span></p>
+<p class="p1"><span class="s1">    &lt;/script&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+</body>
+</html>
